@@ -88,8 +88,12 @@ class MulticraftAPI {
 			params._MulticraftAPIUser = this.user;
 			params._MulticraftAPIKey = this._generateSignature(params);
 
+			// User agent added for hosts that use Cloudflare
 			const res = await got.post(this.url, {
-				form: params
+				form: params,
+				headers: {
+					'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:88.0) Gecko/20100101 Firefox/88.0'
+				}
 			});
 			const data = JSON.parse(res.body);
 			if (!data.success) return reject(data);
